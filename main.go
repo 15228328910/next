@@ -1,14 +1,29 @@
 package main
 
-type Model struct {
-	Id          int64  `column:"id"`
-	Name        string `column:"name"`
-	WalletMoney int64  `column:"wallet_money"`
+import (
+	"fmt"
+	"next/rpc"
+)
+
+type Test struct {
 }
 
-func (m *Model) Table() string {
-	return "suser_copy"
+type Resp struct {
+	Name string
+}
+
+func (t *Test) HelloWorld() (resp *Resp, err error) {
+	resp = new(Resp)
+	return
 }
 
 func main() {
+	test := new(Test)
+	server := rpc.NewServer()
+	server.Register(test)
+	server.Run()
+
+	client := rpc.NewClient()
+	resp, err := client.Call("Test.HelloWorld", "liucong")
+	fmt.Println(resp, err)
 }
