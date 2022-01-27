@@ -1,7 +1,8 @@
 package rpc
 
-import "net/rpc"
-
 type Server interface {
-	rpc.Call
+	// Register all exported method of service
+	Register(srv Service) error
+	// Call , invoke service method ,like srv.method
+	Call(method string, args interface{}) (reply interface{}, err error)
 }
