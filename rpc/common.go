@@ -2,6 +2,11 @@ package rpc
 
 import "reflect"
 
+//Option  用户协商
+type Option struct {
+	CodeType int64
+}
+
 type Head struct {
 	ServiceMethod string
 	Seq           string

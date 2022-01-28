@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99bc25cb-8c7d-481b-a481-a9fa3c7c099a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rpc/common.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/gob_codec.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/json_codec.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/codec.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/codec.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/common.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +44,12 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/rpc" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpc" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -102,7 +109,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/rpc/client.go</url>
-          <line>46</line>
+          <line>49</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

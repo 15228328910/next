@@ -21,11 +21,11 @@ func (t *Test) HelloWorld(name string) (resp *Resp, err error) {
 
 func main() {
 	test := new(Test)
-	server := rpc.NewServer("127.0.0.1:8090")
+	server := rpc.NewServer("127.0.0.1:8094")
 	server.Register(test)
 	go server.Run()
 
-	client := rpc.NewClient("127.0.0.1:8090")
+	client := rpc.NewClient("127.0.0.1:8094", 1)
 	resp, err := client.Call(test, "HelloWorld", "liucong")
 	fmt.Println(resp, err)
 }

@@ -51,17 +51,21 @@ func (s *server) run() error {
 }
 
 func (s *server) handleConn(conn io.ReadWriteCloser) {
-	decoder := json.NewDecoder(conn)
+	var option Option
+	json.NewDecoder(conn).Decode(&option)
+	fmt.Println("codecType is:", option.CodeType)
+
+	decoder := NewCodecFactory(option.CodeType).GetCodec(conn)
 	// read header
 	header := new(Head)
-	err := decoder.Decode(header)
+	err := decoder.ReadHead(header)
 	if err != nil {
 		header.Error = err.Error()
 	}
 
 	// read body
 	var body interface{}
-	err = decoder.Decode(&body)
+	err = decoder.ReadBody(&body)
 	if err != nil {
 		header.Error = err.Error()
 	}

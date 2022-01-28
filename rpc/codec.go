@@ -1,5 +1,7 @@
 package rpc
 
+import "io"
+
 type Codec interface {
 	ReadHead(interface{}) error
 	ReadBody(interface{}) error
@@ -7,29 +9,30 @@ type Codec interface {
 	WriteBody(interface{}) error
 }
 
-type codec struct {
+type CodecFactory interface {
+	GetCodec(closer io.ReadWriteCloser) Codec
 }
 
-func (c *codec) ReadHead(i interface{}) error {
-	//TODO implement me
-	panic("implement me")
+func NewCodecFactory(codecType int64) CodecFactory {
+	switch codecType {
+	case 1:
+		return &jsonCodecFactory{}
+	case 2:
+		return &gobCodecFactory{}
+	}
+	return &gobCodecFactory{}
 }
 
-func (c *codec) ReadBody(i interface{}) error {
-	//TODO implement me
-	panic("implement me")
+type jsonCodecFactory struct {
 }
 
-func (c *codec) WriteHead(i interface{}) error {
-	//TODO implement me
-	panic("implement me")
+func (j *jsonCodecFactory) GetCodec(closer io.ReadWriteCloser) Codec {
+	return newJsonCodec(closer)
 }
 
-func (c *codec) WriteBody(i interface{}) error {
-	//TODO implement me
-	panic("implement me")
+type gobCodecFactory struct {
 }
 
-func NewCodec() Codec {
-	return &codec{}
+func (g *gobCodecFactory) GetCodec(closer io.ReadWriteCloser) Codec {
+	return newGobCodec(closer)
 }

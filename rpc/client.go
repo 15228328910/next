@@ -14,7 +14,9 @@ type Client interface {
 }
 
 type client struct {
-	addr string
+	addr         string
+	codecFactory CodecFactory
+	codecType    int64
 }
 
 func (c *client) Call(object interface{}, method string, args interface{}) (reply interface{}, err error) {
@@ -24,19 +26,20 @@ func (c *client) Call(object interface{}, method string, args interface{}) (repl
 		return
 	}
 
-	fmt.Print("准备发起请求数据")
+	fmt.Println("准备发起请求数据,codeType:", c.codecType)
+	json.NewEncoder(conn).Encode(&Option{CodeType: 1})
 
 	target := reflect.TypeOf(object).String()
 	// 写入头部
-	encoder := json.NewEncoder(conn)
+	encoder := c.codecFactory.GetCodec(conn)
 	header := &Head{
 		ServiceMethod: target + "/" + method,
 		Seq:           "1",
 	}
-	encoder.Encode(header)
+	encoder.WriteHead(header)
 
 	// 写入body
-	encoder.Encode(args)
+	encoder.WriteBody(args)
 
 	// 读取头部
 	decoder := json.NewDecoder(conn)
@@ -48,6 +51,6 @@ func (c *client) Call(object interface{}, method string, args interface{}) (repl
 	return
 }
 
-func NewClient(addr string) Client {
-	return &client{addr: addr}
+func NewClient(addr string, codecType int64) Client {
+	return &client{addr: addr, codecFactory: NewCodecFactory(codecType), codecType: codecType}
 }
