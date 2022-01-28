@@ -12,18 +12,20 @@ type Resp struct {
 	Name string
 }
 
-func (t *Test) HelloWorld() (resp *Resp, err error) {
-	resp = new(Resp)
+func (t *Test) HelloWorld(name string) (resp *Resp, err error) {
+	resp = &Resp{
+		Name: name,
+	}
 	return
 }
 
 func main() {
 	test := new(Test)
-	server := rpc.NewServer()
+	server := rpc.NewServer("127.0.0.1:8090")
 	server.Register(test)
-	server.Run()
+	go server.Run()
 
-	client := rpc.NewClient()
-	resp, err := client.Call("Test.HelloWorld", "liucong")
+	client := rpc.NewClient("127.0.0.1:8090")
+	resp, err := client.Call(test, "HelloWorld", "liucong")
 	fmt.Println(resp, err)
 }
