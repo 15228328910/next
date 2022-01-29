@@ -63,17 +63,27 @@ func (s *server) handleConn(conn io.ReadWriteCloser) {
 		header.Error = err.Error()
 	}
 
-	// read body
-	var body interface{}
-	err = decoder.ReadBody(&body)
-	if err != nil {
-		header.Error = err.Error()
-	}
-
 	// 获取注册方法
 	srvMethodArr := strings.Split(header.ServiceMethod, "/")
 	srv := s.srvMap[srvMethodArr[0]]
 	method := srvMethodArr[1]
+
+	// read body
+	ty := reflect.TypeOf(srv)
+	m, bool := ty.MethodByName(method)
+	if !bool {
+		header.Error = "方法不存在"
+	}
+	paramType := m.Type.In(1)
+	param := reflect.New(paramType)
+	paramData := param.Interface()
+	err = decoder.ReadBody(paramData)
+	if err != nil {
+		header.Error = err.Error()
+	}
+	body := reflect.ValueOf(paramData).Elem().Interface()
+
+	// 调用函数
 	resp, err := callFunction(srv, method, body)
 	if err != nil {
 		header.Error = err.Error()

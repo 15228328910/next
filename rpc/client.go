@@ -26,7 +26,7 @@ func (c *client) Close() error {
 }
 
 func (c *client) Call(object interface{}, method string, args interface{}) (reply interface{}, err error) {
-	fmt.Println("准备发起请求数据,codeType:", c.codecType)
+	fmt.Println("准备发起请求数据,codeType:", c.conn, c.codecType)
 	json.NewEncoder(c.conn).Encode(&Option{CodeType: c.codecType})
 
 	target := reflect.TypeOf(object).String()

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"next/rpc"
+	"time"
 )
 
 type Test struct {
@@ -21,11 +22,12 @@ func (t *Test) HelloWorld(name string) (resp *Resp, err error) {
 
 func main() {
 	test := new(Test)
-	server := rpc.NewServer("127.0.0.1:8096")
+	server := rpc.NewServer("127.0.0.1:8396")
 	server.Register(test)
 	go server.Run()
 
-	client := rpc.NewClient("127.0.0.1:8096", 2)
+	time.Sleep(time.Second * 5)
+	client := rpc.NewClient("127.0.0.1:8396", 2)
 	defer client.Close()
 	resp, err := client.Call(test, "HelloWorld", "liucong")
 	fmt.Println(resp, err)
