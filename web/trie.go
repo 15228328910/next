@@ -22,7 +22,7 @@ func NewTire() *Tire {
 	return &tire
 }
 
-func (t *Tire) AddNode(hold string, handler Service) *Tire {
+func (t *Tire) addNode(hold string, handler Service) *Tire {
 	if hold == "" {
 		return t
 	}
@@ -63,7 +63,7 @@ func (t *Tire) AddHandler(path string, handler Service) *Tire {
 		return t
 	}
 	pathArray := strings.SplitN(path, "/", 2)
-	child := t.AddNode(pathArray[0], handler)
+	child := t.addNode(pathArray[0], handler)
 	if len(pathArray) == 2 {
 		return child.AddHandler(pathArray[1], handler)
 	}
@@ -91,4 +91,19 @@ func (t *Tire) Display() {
 	for _, child := range t.children {
 		child.Display()
 	}
+}
+
+// Level 获取树的层数
+func (t *Tire) Level() int64 {
+	if t.children == nil {
+		return 1
+	}
+	var max int64
+	for _, child := range t.children {
+		l := child.Level()
+		if l > max {
+			max = l
+		}
+	}
+	return max + 1
 }
