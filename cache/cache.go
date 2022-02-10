@@ -3,12 +3,14 @@ package cache
 import (
 	"container/list"
 	"fmt"
+	"sync"
 )
 
 type Cache struct {
-	queue *list.List
-	cache map[string]*list.Element
-	size  int
+	locker sync.Mutex
+	queue  *list.List
+	cache  map[string]*list.Element
+	size   int
 }
 
 type entry struct {
@@ -26,6 +28,8 @@ func NewCache(size int) *Cache {
 }
 
 func (c *Cache) Get(key string) interface{} {
+	c.locker.Lock()
+	defer c.locker.Unlock()
 	element, ok := c.cache[key]
 	if !ok || element == nil {
 		return nil
@@ -39,6 +43,8 @@ func (c *Cache) Get(key string) interface{} {
 }
 
 func (c *Cache) Set(key string, value interface{}) {
+	c.locker.Lock()
+	defer c.locker.Unlock()
 	element, ok := c.cache[key]
 	if ok {
 		en := element.Value.(*entry)
