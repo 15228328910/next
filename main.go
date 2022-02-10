@@ -2,14 +2,19 @@ package main
 
 import (
 	"fmt"
-	"next/web"
+	"next/cache"
 )
 
 func main() {
-	tire := web.NewTire()
-	tire.AddHandler("/a/b/c", nil)
-	tire.AddHandler("/a/b", nil)
-	tire.Display()
-	level := tire.Level()
-	fmt.Println("level is :", level)
+	c := cache.NewCache(2)
+	c.Set("c", "c")
+	c.Set("a", "a")
+	c.Set("b", "b")
+	fmt.Println("b", c.Get("b"))
+	fmt.Println("a", c.Get("a"))
+	fmt.Println("c", c.Get("c"))
+	c.Set("a", 1)
+	c.Set("b", 2)
+	fmt.Println("b", c.Get("b"))
+	fmt.Println("a", c.Get("a"))
 }
