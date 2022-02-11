@@ -11,14 +11,17 @@ func main() {
 	r.Add("2")
 	r.Add("3")
 
-	node := r.Get("2")
-	fmt.Println(node)
-
-	r.Remove("2")
-	node = r.Get("2")
-	fmt.Println(node)
-
-	r.Remove("3")
-	node = r.Get("2")
-	fmt.Println(node)
+	mp := map[string]int{
+		"1": 0,
+		"2": 0,
+		"3": 0,
+	}
+	for i := 0; i < 100; i++ {
+		nodeName := fmt.Sprintf("%d", i)
+		node := r.Get(nodeName)
+		mp[node]++
+	}
+	for key, value := range mp {
+		fmt.Println(key, value)
+	}
 }
