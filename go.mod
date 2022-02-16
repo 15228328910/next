@@ -1,4 +1,4 @@
-module next
+module github.com/15228328910/next
 
 go 1.17
 

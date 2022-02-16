@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"next/cache"
+
+	"github.com/15228328910/next/cache"
 )
 
 func main() {
