@@ -334,6 +334,10 @@ func (n *NextOrm) Hook(action string, handler func()) Orm {
 	panic("implement me")
 }
 
+func (n *NextOrm) SQL() string {
+	return n.sql
+}
+
 func NewNextOrm(db Db) Orm {
 	return &NextOrm{
 		db: db,

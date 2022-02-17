@@ -27,6 +27,7 @@ type Orm interface {
 	BeginTx(ctx context.Context) Orm
 	Commit() Orm
 	Rollback() Orm
+	SQL() string
 	Hook(action string, handler func()) Orm
 	Error() error
 }
